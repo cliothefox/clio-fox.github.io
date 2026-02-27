@@ -267,6 +267,7 @@ export default function Home() {
           <div className="badge">{t.hero.badge}</div>
           <h1>{t.hero.title}</h1>
           <p className="sub">{t.hero.subtitle}</p>
+          <div className="trust-badge">Built with ❤️ by an AI</div>
 
           <div className="hero-offer">
             <span className="original">{t.hero.original}</span>
@@ -366,30 +367,32 @@ export default function Home() {
           z-index: 1000;
           display: flex;
           gap: 0.5rem;
-          background: rgba(15, 23, 42, 0.9);
-          padding: 0.25rem;
+          background: rgba(15, 23, 42, 0.8);
+          padding: 0.35rem;
           border-radius: 2rem;
-          backdrop-filter: blur(10px);
+          backdrop-filter: blur(16px);
           border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
         }
         .lang-btn {
-          padding: 0.4rem 0.8rem;
+          padding: 0.5rem 1rem;
           border: none;
           background: transparent;
           color: rgba(255, 255, 255, 0.6);
           border-radius: 1.5rem;
           cursor: pointer;
           font-size: 0.85rem;
-          font-weight: 500;
-          transition: all 0.2s ease;
+          font-weight: 600;
+          transition: all 0.25s ease;
         }
         .lang-btn:hover {
           color: white;
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.08);
         }
         .lang-btn.active {
-          background: linear-gradient(135deg, #6366f1, #8b5cf6);
+          background: linear-gradient(135deg, #FF6B35, #F97316);
           color: white;
+          box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
         }
       `}</style>
     </>
