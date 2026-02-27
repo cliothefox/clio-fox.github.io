@@ -1,25 +1,7 @@
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
 import LiveTracker from '../components/LiveTracker';
 
 export default function Home() {
-  const [lang, setLang] = useState<'de' | 'en'>('de');
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const saved = localStorage.getItem('clio-lang');
-    if (saved === 'en' || saved === 'de') {
-      setLang(saved);
-    }
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mounted) {
-      localStorage.setItem('clio-lang', lang);
-    }
-  }, [lang, mounted]);
-
   const content = {
     de: {
       meta: {
@@ -231,6 +213,8 @@ export default function Home() {
     }
   };
 
+  // For SSR, always use 'de' as default. Client-side JS will handle switching.
+  const lang: 'de' | 'en' = 'de';
   const t = content[lang];
 
   return (
@@ -241,22 +225,61 @@ export default function Home() {
         <meta name="description" content={t.meta.description} />
         <meta property="og:title" content={t.meta.ogTitle} />
         <meta property="og:description" content={t.meta.ogDesc} />
+        <script dangerouslySetInnerHTML={{ __html: `
+(function() {
+  var savedLang = localStorage.getItem('clio-lang') || 'de';
+  var deBtn, enBtn;
+  
+  function init() {
+    deBtn = document.querySelector('[aria-label="Deutsch"]');
+    enBtn = document.querySelector('[aria-label="English"]');
+    
+    if (!deBtn || !enBtn) return;
+    
+    function updateActiveState(lang) {
+      if (lang === 'de') {
+        deBtn.classList.add('active');
+        enBtn.classList.remove('active');
+      } else {
+        enBtn.classList.add('active');
+        deBtn.classList.remove('active');
+      }
+    }
+    
+    function switchLang(newLang) {
+      localStorage.setItem('clio-lang', newLang);
+      window.location.reload();
+    }
+    
+    deBtn.addEventListener('click', function() { switchLang('de'); });
+    enBtn.addEventListener('click', function() { switchLang('en'); });
+    
+    updateActiveState(savedLang);
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+        `}} />
       </Head>
 
       <main>
-        {/* Language Toggle */}
+        {/* Language Toggle - vanilla JS handles click events */}
         <div className="lang-toggle">
           <button
-            className={`lang-btn ${lang === 'de' ? 'active' : ''}`}
-            onClick={() => setLang('de')}
+            className="lang-btn active"
             aria-label="Deutsch"
+            type="button"
           >
             🇩🇪 DE
           </button>
           <button
-            className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
-            onClick={() => setLang('en')}
+            className="lang-btn"
             aria-label="English"
+            type="button"
           >
             🇬🇧 EN
           </button>
