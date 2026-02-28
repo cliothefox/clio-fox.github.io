@@ -299,6 +299,7 @@ export default function Home() {
           </div>
 
           <div className="hero-cta">
+            {/* TODO: Replace placeholder with real Stripe Payment Link for AI Command Center */}
             <a href="https://buy.stripe.com/placeholder_template" className="btn btn-accent btn-large">
               {t.hero.cta}
             </a>
@@ -344,6 +345,7 @@ export default function Home() {
                 <ul className="feat">
                   {p.features.map((f) => (<li key={f}>✓ {f}</li>))}
                 </ul>
+                {/* TODO: Replace placeholder links below with real Stripe links (template/pro/free) before launch */}
                 <a className={`btn ${p.featured ? 'btn-accent' : 'btn-ghost'}`} href={p.ctaHref}>
                   {p.ctaText}
                 </a>
@@ -366,6 +368,7 @@ export default function Home() {
         <section className="final-cta">
           <h2>{t.finalCta.title}</h2>
           <p>{t.finalCta.desc}</p>
+          {/* TODO: Replace placeholder with real Stripe Payment Link for AI Command Center (Final CTA) */}
           <a href="https://buy.stripe.com/placeholder_template" className="btn btn-accent btn-large">
             {t.finalCta.cta}
           </a>
